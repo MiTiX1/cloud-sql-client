@@ -54,7 +54,7 @@ class CloudSQLClient:
         if not self.engine:
             raise RuntimeError("CloudSQLClient not initialized. Call await init() first.")
         try:
-            async with self.get_session() as session:
+            async with await self.get_session() as session:
                 await session.execute(sqlalchemy.text("SELECT 1"))
             self.logger.info("Cloud SQL connection OK")
         except SQLAlchemyError as e:
