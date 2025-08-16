@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="gsql-client",
-    version="1.0.0",
+    version="1.0.1",
     author="BB",
     description="A helper library for Google Cloud SQL interactions (PostgreSQL)",
     packages=find_packages(),
