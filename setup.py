@@ -10,6 +10,7 @@ setup(
     python_requires=">=3.12.0",
     install_requires=[
         "cloud-sql-python-connector>=1.18.5",
-        "SQLAlchemy>=2.0.43"
+        "SQLAlchemy>=2.0.43",
+        "asyncpg>=0.30.0"
     ],
 )
