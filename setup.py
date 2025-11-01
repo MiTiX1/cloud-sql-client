@@ -9,7 +9,7 @@ setup(
     include_package_data=True,
     python_requires=">=3.12.0",
     install_requires=[
-        "google-cloud-storage>=1.18.4",
+        "cloud-sql-python-connector>=1.18.5",
         "SQLAlchemy>=2.0.43"
     ],
 )
