@@ -15,27 +15,42 @@ class CloudSQLClient:
 
     async def init(
         self,
-        instance_connection_name: str,
         user: str,
         password: str,
-        db: str
+        db: str,
+        instance_connection_name: str = None,
+        host: str = "localhost",
+        port: int = 5432
     ) -> None:
-        self._connector = await create_async_connector()
-
-        self.engine = create_async_engine(
-            "postgresql+asyncpg://",
-            async_creator=lambda: self._connector.connect_async(
-                instance_connection_name,
-                "asyncpg",
-                user=user,
-                password=password,
-                db=db
-            ),
-            echo=False,
-            future=True,
-            pool_size=5,
-            max_overflow=2
-        )
+        
+        # Cloud SQL connection
+        if instance_connection_name:
+            self._connector = await create_async_connector()
+            
+            self.engine = create_async_engine(
+                "postgresql+asyncpg://",
+                async_creator=lambda: self._connector.connect_async(
+                    instance_connection_name,
+                    "asyncpg",
+                    user=user,
+                    password=password,
+                    db=db
+                ),
+                echo=False,
+                future=True,
+                pool_size=5,
+                max_overflow=2
+            )
+        # Local connection
+        else:
+            connection_string = f"postgresql+asyncpg://{user}:{password}@{host}:{port}/{db}"
+            self.engine = create_async_engine(
+                connection_string,
+                echo=False,
+                future=True,
+                pool_size=5,
+                max_overflow=2
+            )
 
         self._session_factory = sessionmaker(
             bind=self.engine,
